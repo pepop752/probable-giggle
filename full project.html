@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض تقديمي: التحليل الاقتصادي لإيرادات قناة السويس 2030</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons for Navigation -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- Libraries for Exporting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    
+    <style>
+        :root {
+            --color-primary: #0D1B2A;       /* Dark Navy */
+            --color-secondary: #415A77;     /* Shadow Blue */
+            --color-accent: #E0E1DD;        /* Pale Silver */
+            --color-text: #FFFFFF;          /* Pure White */
+            --color-text-muted: #A0AEC0;    /* Light Gray */
+            --color-highlight: #FFC300;     /* Vivid Gold */
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--color-primary);
+            color: var(--color-text);
+            overflow: hidden;
+        }
+        
+        .presentation-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100%;
+            max-width: 1366px;
+            max-height: 768px;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            z-index: 5;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background-color: var(--color-primary);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .slide {
+            width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0;
+            opacity: 0; visibility: hidden;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 2.5rem;
+            text-align: center;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .slide-bg-image {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        
+        .slide-bg-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide::before { /* Overlay */
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 2;
+            background: linear-gradient(to top, rgba(13, 27, 42, 0.85) 0%, rgba(13, 27, 42, 0.65) 100%);
+        }
+        
+        .slide-content-wrapper {
+             width: 100%; height: 100%;
+             padding: 3rem;
+             display: flex; flex-direction: column;
+             justify-content: center; align-items: center;
+             position: relative; z-index: 3;
+             overflow-y: auto;
+             scrollbar-width: thin;
+             scrollbar-color: var(--color-highlight) transparent;
+        }
+        .slide-content-wrapper::-webkit-scrollbar { width: 8px; }
+        .slide-content-wrapper::-webkit-scrollbar-track { background: transparent; }
+        .slide-content-wrapper::-webkit-scrollbar-thumb { background-color: var(--color-highlight); border-radius: 20px; border: 3px solid transparent; }
+
+
+        /* Slide Animations */
+        .slide.active { opacity: 1; visibility: visible; z-index: 10; }
+        .slide .animated-element {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+            transition-delay: 0.3s;
+        }
+        .slide.active .animated-element { opacity: 1; transform: translateY(0); }
+        .slide.active .animated-element.delay-1 { transition-delay: 0.5s; }
+        .slide.active .animated-element.delay-2 { transition-delay: 0.7s; }
+        .slide.active .animated-element.delay-3 { transition-delay: 0.9s; }
+        .slide.active .animated-element.stagger { transition-delay: calc(0.3s + var(--stagger-index) * 0.1s); }
+
+
+        .accent-highlight { color: var(--color-highlight); }
+
+        /* General content styling */
+        .slide h1 { font-size: 2.8rem; line-height: 1.2; text-shadow: 0 2px 15px rgba(0,0,0,0.8); }
+        .slide h2 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--color-accent); font-weight: 700; text-shadow: 0 1px 10px rgba(0,0,0,0.7); }
+        .slide .subtitle { font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 1.5rem; max-width: 800px; }
+        .slide p, .slide li { font-size: 1.1rem; line-height: 1.8; max-width: 850px; color: var(--color-text); text-shadow: 0 1px 5px rgba(0,0,0,0.7); text-align: right; }
+        .slide ul { list-style-type: '✔  '; padding-right: 1.5rem; text-align: right; }
+        .info-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--color-highlight); margin-bottom: 0.5rem; }
+        .info-card p { font-size: 1rem; line-height: 1.6; color: var(--color-text-muted); }
+        .info-card ul { font-size: 1rem; line-height: 1.6; }
+
+
+        /* Table styles */
+        .table-container { width: 100%; overflow-x: auto; max-width: 90%; margin-top: 1.5rem; background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 1.5rem; border: 1px solid rgba(65, 90, 119, 0.5); backdrop-filter: blur(8px); }
+        .custom-table { width: 100%; border-collapse: collapse; text-align: center; }
+        .custom-table th, .custom-table td { border: 1px solid rgba(65, 90, 119, 0.4); padding: 10px; font-size: 1rem; }
+        .custom-table th { background-color: rgba(65, 90, 119, 0.2); color: var(--color-highlight); font-weight: 700; }
+        .custom-table tr:nth-child(even) { background-color: rgba(255,255,255,0.03); }
+
+        /* Student List Styling (No Images) */
+        .student-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; width: 100%; max-width: 900px; }
+        .student-card { text-align: center; background-color: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 0.5rem; }
+        .student-card p { font-size: 1.1rem; font-weight: 500;}
+
+        .add-bg-btn { position: absolute; top: 20px; left: 20px; z-index: 20; background-color: rgba(0,0,0,0.6); color: white; border: 1px solid white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-weight: bold; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; line-height: 1; padding-bottom: 4px; }
+        .add-bg-btn:hover { background-color: white; color: black; }
+
+        /* Pie Chart Styles */
+        .pie-chart-wrapper { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 2rem; transform: scale(0.9); }
+        .pie-chart { width: 250px; height: 250px; border-radius: 50%; position: relative; background: conic-gradient(#1f77b4 0% 40%, #ff7f0e 40% 65%, #2ca02c 65% 80%, #d62728 80% 90%, #9467bd 90% 100%); }
+        .pie-chart-legend { list-style: none; padding: 0; text-align: right; }
+        .pie-chart-legend li { margin-bottom: 10px; display: flex; align-items: center; justify-content: flex-end; font-size: 1rem; }
+        .legend-color { width: 20px; height: 20px; margin-left: 10px; display: inline-block; }
+
+
+        /* Navigation & Controls */
+        #presentation-controls { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; gap: 1rem; }
+        .control-group { display: flex; align-items: center; gap: 1rem; background: rgba(13, 27, 42, 0.85); padding: 0.5rem 1rem; border-radius: 9999px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        #slide-counter { color: var(--color-accent); font-size: 1rem; min-width: 60px; text-align: center; }
+        .nav-button, .export-btn { background: none; border: none; color: var(--color-text); cursor: pointer; transition: all 0.3s; }
+        .nav-button:hover, .export-btn:hover { color: var(--color-highlight); transform: scale(1.1); }
+        .nav-button:disabled { color: var(--color-text-muted); cursor: not-allowed; transform: none; }
+        #dot-navigation-wrapper { position: fixed; display: flex; justify-content: center; width: 100%; bottom: 80px; z-index: 49; }
+        #dot-navigation { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; background: rgba(13, 27, 42, 0.85); padding: 0.5rem 1rem; border-radius: 9999px; backdrop-filter: blur(10px); }
+        .dot { width: 12px; height: 12px; background-color: rgba(160, 174, 192, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
+        .dot.active { background-color: var(--color-highlight); transform: scale(1.2); }
+        #progress-bar { position: fixed; top: 0; right: 0; left: 0; height: 4px; background: var(--color-highlight); width: 0%; z-index: 60; transition: width 0.5s ease; }
+        #loading-indicator { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 100; flex-direction: column; gap: 1rem; }
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div id="loading-indicator">
+      <svg class="animate-spin h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+      <p class="text-xl font-bold">جاري التصدير...</p>
+    </div>
+
+    <div class="presentation-wrapper">
+        <div class="presentation-container">
+            <!-- Slides will be dynamically generated here -->
+            <section class="slide active">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h1 class="text-7xl md:text-8xl font-black tracking-widest text-white/90 animated-element" style="text-shadow: 0 0 40px rgba(255, 195, 0, 0.6);">SUEZ CANAL</h1>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="mb-4 animated-element">مشروع تخرج بعنوان</h2>
+                    <h1 class="text-4xl md:text-5xl leading-tight animated-element delay-1">التحليل الاقتصادي لتوقعات إيرادات قناة السويس<br>طبقًا لرؤية مصر 2030</h1>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">إشراف</h2>
+                    <h1 class="text-5xl md:text-6xl mt-4 accent-highlight animated-element delay-1">دكتور/ فوزي محمد هيكل</h1>
+                </div>
+            </section>
+
+            <section class="slide">
+                 <div class="slide-content-wrapper">
+                    <h2 class="mb-8 animated-element">إعداد</h2>
+                    <div class="student-grid animated-element delay-1">
+                        <div class="student-card"><p>أبانوب عادل فؤاد سيدهم</p></div>
+                        <div class="student-card"><p>ابرام رضا نصار منصور</p></div>
+                        <div class="student-card"><p>إبراهيم علي إبراهيم الامام</p></div>
+                        <div class="student-card"><p>أحمد محمد السعيد أحمد</p></div>
+                        <div class="student-card"><p>أحمد محمد زكريا فهيد</p></div>
+                        <div class="student-card"><p>إسراء محمود خيري داخلي</p></div>
+                        <div class="student-card"><p>عبد الصمد محمد عبد العزيز</p></div>
+                        <div class="student-card"><p>منى محمد صابر محمد</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">طبيعة المشروع</h2>
+                    <p class="subtitle animated-element delay-1">نظرة عامة على قناة السويس كشريان حيوي للتجارة العالمية وأساس المشروع.</p>
+                    <p class="animated-element delay-2" style="max-width: 900px; font-size: 1.2rem;">واجه العالم مشكلات عديدة في الآونة الأخيرة ناتجة عن الصراعات الإقليمية والجيوسياسية مثل حرب أوكرانيا وروسيا والصراعات في قطاع غزة وما نتج عن سيطرة الحوثيين على مضيق باب المندب وتعطيل حركة الملاحة العالمية وتمثل قناة السويس ممرا مهما في هذه الصراعات. تعد القناة شريانًا حيويًا للتجارة العالمية، حيث تسهم في تقليص المسافة والوقت والتكاليف للسفن، وتعتبر مصدرًا هامًا للدخل القومي المصري. مع استمرار التوسعات والتطويرات، ستظل قناة السويس تلعب دورًا حيويًا في التجارة العالمية.</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">أهمية المشروع</h2>
+                    <p class="subtitle animated-element delay-1">يسلط هذا الجزء الضوء على الأبعاد العلمية والعملية للمشروع وأثره التنموي.</p>
+                    <ul class="mt-4 space-y-2 animated-element delay-2 text-right max-w-2xl mx-auto" style="font-size: 1.2rem;">
+                        <li><b>تعزيز التجارة العالمية:</b> زيادة حركة الملاحة وتقليل زمن عبور السفن، مما يزيد العوائد المالية لمصر.</li>
+                        <li><b>التنمية الاقتصادية:</b> إنشاء مناطق اقتصادية خاصة ومشروعات تنموية تخلق فرص عمل جديدة.</li>
+                        <li><b>تعزيز البنية التحتية:</b> تحسين الموانئ والمرافق اللوجستية لزيادة الكفاءة والقدرة التنافسية لمصر.</li>
+                        <li><b>فرص العمل والتنمية البشرية:</b> خلق فرص عمل في قطاع النقل البحري والصناعات المرتبطة به.</li>
+                        <li><b>تقييم المخاطر:</b> توفير فرصة لتقييم التحديات المحتملة مثل الأثر البيئي لضمان استدامة المشروع.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">أهداف المشروع</h2>
+                    <p class="subtitle animated-element delay-1">تحديد الغايات الرئيسية للدراسة من التحليل الاقتصادي إلى تقديم التوصيات.</p>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl text-right mt-4 animated-element delay-2" style="font-size: 1.1rem;">
+                        <li class="bg-black/20 p-3 rounded-lg">تحليل الأثر الاقتصادي، بما في ذلك زيادة الإيرادات والنمو الاقتصادي المتوقع.</li>
+                        <li class="bg-black/20 p-3 rounded-lg">دراسة تأثير القناة على حركة التجارة العالمية والإقليمية وتعزيز مكانة مصر كمركز لوجستي.</li>
+                        <li class="bg-black/20 p-3 rounded-lg">تقييم الفرص المتاحة والتحديات التي قد تواجه إدارة وتطوير القناة.</li>
+                        <li class="bg-black/20 p-3 rounded-lg">تقييم الأثر البيئي للمشروع، بما في ذلك تأثيرات التغير المناخي والنظم البيئية.</li>
+                        <li class="bg-black/20 p-3 rounded-lg">تقديم توصيات استراتيجية لتحسين إدارة القناة وتعزيز الاستفادة منها على المدى البعيد.</li>
+                        <li class="bg-black/20 p-3 rounded-lg">دراسة تأثير المشروع على التنمية البشرية وتحسين فرص العمل في المناطق المحيطة.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">خطة المشروع</h2>
+                    <p class="subtitle animated-element delay-1">الخطوط العريضة والهيكلية للدراسة التحليلية للمشروع.</p>
+                    <ul class="mt-4 space-y-3 text-right max-w-3xl animated-element delay-2" style="font-size: 1.2rem;">
+                         <li><b>الفصل الأول: أدوات التحليل الاقتصادي:</b> قياس أداء قناة السويس وتأثيرها في المنطقة ودراسة التحديات التي تواجهها.</li>
+                         <li><b>الفصل الثاني: التحديات الاقتصادية لإيرادات قناة السويس:</b> تناول مصادر الإيرادات، النظريات الاقتصادية، البيانات الإحصائية، والتهديدات المحتملة.</li>
+                         <li><b>الفصل الثالث: آليات تعظيم إيرادات قناة السويس وفقًا لخطة مصر 2030:</b> تناول الفرص المتاحة، الآثار الاقتصادية والاجتماعية، وخطة تطوير القناة لزيادة قدرتها التنافسية عالميًا.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper"><h2 class="animated-element">الفصل الأول</h2><h1 class="accent-highlight animated-element delay-1">أدوات التحليل الاقتصادي</h1></div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">المبحث الأول</h2>
+                    <h1 class="accent-highlight animated-element delay-1">استراتيجيات التحليل الاقتصادي</h1>
+                    <p class="subtitle animated-element delay-2">يستعرض هذا المبحث المؤشرات الرئيسية المستخدمة لتقييم أداء القناة وتأثيرها الاقتصادي والاجتماعي.</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">تحليل إيرادات وحركة السفن</h2>
+                     <p class="subtitle animated-element delay-1">قراءة في الأرقام الرئيسية التي تعكس نمو القناة وأهميتها المالية.</p>
+                    <p class="animated-element delay-2" style="font-size: 1.2rem;">وفقًا لتقارير هيئة قناة السويس، حققت القناة إيرادات بلغت حوالي 8 مليارات دولار في عام 2022. تعتبر هذه الإيرادات مصدرًا حيويًا للميزانية، حيث تمثل أكثر من 7% من إجمالي إيرادات الحكومة. كما شهدت حركة السفن نموًا مستدامًا، حيث عبرت القناة حوالي 20 ألف سفينة في نفس العام، وأدت مشاريع التوسعة إلى زيادة القدرة الاستيعابية.</p>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">توزيع أنواع السفن المارة بالقناة (2022)</h2>
+                     <p class="subtitle animated-element delay-1">تحليل لأنواع السفن التي تعبر القناة لفهم طبيعة الحركة التجارية.</p>
+                    <div class="pie-chart-wrapper animated-element delay-2">
+                        <div class="pie-chart"></div>
+                        <ul class="pie-chart-legend">
+                            <li><span class="legend-color" style="background-color: #1f77b4;"></span>حاويات (40.0%)</li>
+                            <li><span class="legend-color" style="background-color: #ff7f0e;"></span>بضائع عامة (25.0%)</li>
+                            <li><span class="legend-color" style="background-color: #2ca02c;"></span>سفن سياحية (15.0%)</li>
+                            <li><span class="legend-color" style="background-color: #d62728;"></span>سفن شحن (10.0%)</li>
+                            <li><span class="legend-color" style="background-color: #9467bd;"></span>سفن أخرى (10.0%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                     <h2 class="animated-element">التأثيرات الاجتماعية والثقافية</h2>
+                      <p class="subtitle animated-element delay-1">قياس الأثر المجتمعي للقناة على المناطق المحيطة بها.</p>
+                     <p class="animated-element delay-2" style="font-size: 1.2rem;">تُسهم قناة السويس في تطوير المجتمعات المحيطة بها عبر إنشاء مشروعات تعليمية وصحية، مما أدى إلى تحسين جودة الحياة. كما تُمثل القناة نقطة التقاء للثقافات المختلفة، مما يعزز الفهم المتبادل بين الشعوب.</p>
+                     <div class="table-container animated-element delay-3" style="max-width: 600px;">
+                        <h3 class="text-xl font-bold mb-2 text-white">تأثير القناة على التنمية المجتمعية</h3>
+                        <table class="custom-table">
+                            <thead>
+                                <tr><th>الخدمة</th><th>النسبة المئوية للمستفيدين</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>النقل</td><td>65%</td></tr>
+                                <tr><td>التعليم</td><td>75%</td></tr>
+                                <tr><td>الصحة</td><td>70%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">المبحث الثاني</h2>
+                    <h1 class="accent-highlight animated-element delay-1">منافع التحليل الاقتصادي نحو التميز</h1>
+                     <p class="subtitle animated-element delay-2">تقييم أثر التوسعة على الأداء الاقتصادي والاجتماعي من خلال مقارنة البيانات قبل وبعد 2015.</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">أبرز منافع التحليل الاقتصادي</h2>
+                    <p class="subtitle animated-element delay-1">ملخص للفوائد الرئيسية التي يبرزها التحليل الاقتصادي لأداء القناة وتطورها.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl w-full mt-4 text-right">
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 1;">
+                            <h3 class="font-bold text-lg accent-highlight">1. تعزيز الأداء الاقتصادي</h3>
+                            <p class="text-base mt-2">تحسين إيرادات قناة السويس وزيادة حركة التجارة العالمية من خلال التوسعة وارتفاع عدد السفن والحمولات.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 2;">
+                            <h3 class="font-bold text-lg accent-highlight">2. تحسين الكفاءة التشغيلية</h3>
+                            <p class="text-base mt-2">رفع القدرة على استقبال السفن العملاقة وتقليل وقت العبور، مما يخفض تكاليف الشحن ويزيد من جذب الخطوط الملاحية.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 3;">
+                            <h3 class="font-bold text-lg accent-highlight">3. تأثير اجتماعي إيجابي</h3>
+                            <p class="text-base mt-2">المساهمة في خلق فرص عمل مباشرة وغير مباشرة، مما يدعم الاقتصاد المحلي ويقلل من البطالة.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 4;">
+                            <h3 class="font-bold text-lg accent-highlight">4. تعزيز الموقع التنافسي عالميًا</h3>
+                            <p class="text-base mt-2">القناة تثبت مكانتها رغم المنافسة من موانئ كبرى مثل دبي، بفضل موقعها الاستراتيجي ونموها السريع في الإيرادات.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 5;">
+                            <h3 class="font-bold text-lg accent-highlight">5. دعم صنع القرار الاستراتيجي</h3>
+                            <p class="text-base mt-2">التحليل الاقتصادي يساعد في متابعة الأداء والتعامل مع التحديات من خلال مؤشرات الأداء الرئيسية.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 6;">
+                            <h3 class="font-bold text-lg accent-highlight">6. التوجهات المستقبلية</h3>
+                            <p class="text-base mt-2">تركيز القناة على استخدام التكنولوجيا الحديثة والاستدامة البيئية لضمان التفوق على المدى الطويل.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper"><h2 class="animated-element">الفصل الثاني</h2><h1 class="accent-highlight animated-element delay-1">التحديات الاقتصادية لإيرادات قناة السويس</h1></div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">المبحث الأول</h2>
+                    <h1 class="accent-highlight animated-element delay-1">مصادر إيرادات قناة السويس</h1>
+                    <p class="subtitle animated-element delay-2">تحليل النظريات الاقتصادية التي تفسر أهمية القناة كمصدر رئيسي للدخل.</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">تحليل الأداء الكمي (2014-2022)</h2>
+                    <p class="subtitle animated-element delay-1">نظرة على أبرز المؤشرات الرقمية التي تظهر تطور أداء القناة.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full mt-4 text-right">
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 1;">
+                            <h3 class="font-bold text-lg accent-highlight">تطور الإيرادات</h3>
+                            <p class="text-base mt-2">ارتفعت من 5.3 مليار دولار في 2014 إلى 7 مليارات في 2022، مع انخفاض مؤقت في 2020 بسبب كورونا.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 2;">
+                            <h3 class="font-bold text-lg accent-highlight">عدد السفن</h3>
+                            <p class="text-base mt-2">زاد من 17,000 سفينة عام 2014 إلى 20,000 في 2022.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 3;">
+                            <h3 class="font-bold text-lg accent-highlight">الحمولات</h3>
+                            <p class="text-base mt-2">نمت من 970 مليون طن إلى 1,200 مليون طن، ما يعكس نمو حركة التجارة.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">الأثر الاقتصادي والمقارنة الدولية</h2>
+                     <p class="subtitle animated-element delay-1">تقييم الدور التنموي للقناة وموقعها في المشهد العالمي.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full mt-4 text-right">
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 1;">
+                            <h3 class="font-bold text-lg accent-highlight">فرص العمل</h3>
+                            <p class="text-base mt-2">وفرت القناة حوالي 510 ألف وظيفة بحلول 2022، ما يعكس دورها التنموي.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 2;">
+                            <h3 class="font-bold text-lg accent-highlight">مؤشرات الأداء (KPIs)</h3>
+                            <p class="text-base mt-2">تحسن واضح في عدد السفن، الحمولات، والإيرادات، مما يؤكد نجاح القناة اقتصاديًا.</p>
+                        </div>
+                        <div class="bg-black/20 p-4 rounded-lg animated-element stagger" style="--stagger-index: 3;">
+                            <h3 class="font-bold text-lg accent-highlight">المقارنة الدولية</h3>
+                            <p class="text-base mt-2">رغم تفوق ميناء دبي في الإيرادات، تحتفظ قناة السويس بميزة تنافسية قوية بفضل موقعها الجغرافي.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">المبحث الثاني</h2>
+                    <h1 class="accent-highlight animated-element delay-1">التهديدات المحتملة لإيرادات قناة السويس</h1>
+                    <p class="subtitle animated-element delay-2">استعراض أبرز التحديات التي قد تؤثر على استقرار إيرادات القناة على المدى الطويل.</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">التهديدات والعوامل المؤثرة على التنافسية</h2>
+                    <p class="subtitle animated-element delay-1">تحليل للمخاطر الرئيسية التي تواجه القناة والعوامل التي قد تدفع السفن لاختيار مسارات بديلة.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl mt-4 text-right">
+                        <div class="info-card bg-black/20 p-6 rounded-xl animated-element stagger" style="--stagger-index: 1;">
+                            <h3>أولًا: أنواع التهديدات المحتملة لإيرادات القناة</h3>
+                            <p>القناة تواجه منافسة وظروف قد تُقلل من عدد السفن العابرة.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>موانئ بديلة: موانئ جديدة مثل "نيوم" أو موانئ الخليج قد تجذب السفن.</li>
+                                <li>طرق تجارة بديلة: مثل طريق القطب الشمالي أو "ممر الصين-أوروبا".</li>
+                                <li>أزمات عالمية: كالحروب أو الأوبئة تُقلل من حركة التجارة الدولية.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card bg-black/20 p-6 rounded-xl animated-element stagger" style="--stagger-index: 2;">
+                            <h3>ثانيًا: العوامل المؤثرة على تنافسية قناة السويس</h3>
+                            <p>هناك عوامل قد تدفع السفن لاختيار مسارات أخرى.</p>
+                             <ul class="mt-3 space-y-2">
+                                <li>تكاليف العبور: إذا ارتفعت كثيرًا.</li>
+                                <li>زمن الانتظار: بسبب الازدحام أو ضعف الإدارة.</li>
+                                <li>الخدمات اللوجستية: مثل ضعف تجهيزات الموانئ المحيطة.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">التغيرات البيئية والتكنولوجية وتأثيرها</h2>
+                    <p class="subtitle animated-element delay-1">استعراض كيف يمكن للبيئة والابتكارات التكنولوجية أن تعيد تشكيل مستقبل النقل البحري.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl mt-4 text-right">
+                        <div class="info-card bg-black/20 p-6 rounded-xl animated-element stagger" style="--stagger-index: 1;">
+                            <h3>ثالثًا: التغيرات المناخية وتأثيرها</h3>
+                            <p>تغيرات البيئة قد تؤثر على الملاحة وتفتح طرق بديلة.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>مثل العواصف أو ارتفاع مستوى البحر، أو استخدام طريق القطب الشمالي مستقبلًا.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card bg-black/20 p-6 rounded-xl animated-element stagger" style="--stagger-index: 2;">
+                            <h3>رابعًا: التطورات التكنولوجية</h3>
+                            <p>الابتكارات في النقل البحري قد تقلل الاعتماد على القناة.</p>
+                             <ul class="mt-3 space-y-2">
+                                <li>مثل السفن العملاقة أو الأنظمة البديلة للنقل الأسرع والأرخص.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper"><h2 class="animated-element">الفصل الثالث</h2><h1 class="accent-highlight animated-element delay-1">آليات تعظيم إيرادات قناة السويس وفقًا لخطة مصر 2030</h1></div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">المبحث الأول</h2>
+                    <h1 class="accent-highlight animated-element delay-1">الفرص المتاحة لتعظيم إيرادات قناة السويس</h1>
+                    <p class="subtitle animated-element delay-2">استكشاف الإمكانيات والمشاريع التي تهدف إلى زيادة القيمة الاقتصادية للقناة.</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                     <h2 class="animated-element">آليات تعظيم الإيرادات: الخدمات والمناطق الاقتصادية</h2>
+                     <p class="subtitle animated-element delay-1">استراتيجيات تطوير الخدمات الملاحية والمناطق المحيطة لزيادة القيمة المضافة.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl mt-4 text-right">
+                        <div class="info-card bg-black/20 p-6 rounded-xl animated-element stagger" style="--stagger-index: 1;">
+                            <h3>1. تحسين الخدمات الملاحية</h3>
+                            <p>تطوير كفاءة الملاحة يرفع عدد السفن ويقلل الزمن والتكلفة.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>مضاعفة عدد السفن يوميًا من 49 إلى 97.</li>
+                                <li>تقليل وقت الانتظار من 18 إلى 11 ساعة.</li>
+                                <li>تقليل وقت العبور من 8 إلى 3 ساعات.</li>
+                                <li>تحسين المجرى لاستيعاب السفن الأكبر.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card bg-black/20 p-6 rounded-xl animated-element stagger" style="--stagger-index: 2;">
+                            <h3>2. تطوير المناطق الاقتصادية</h3>
+                            <p>استغلال الأراضي حول القناة لجذب الاستثمار وخلق وظائف.</p>
+                             <ul class="mt-3 space-y-2">
+                                <li>تطوير منطقة العين السخنة وشرق بورسعيد.</li>
+                                <li>إنشاء مركز لوجستي عالمي.</li>
+                                <li>توفير أكثر من 180 ألف فرصة عمل.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">آليات تعظيم الإيرادات: اللوجستيات والتكنولوجيا</h2>
+                    <p class="subtitle animated-element delay-1">استراتيجيات التكامل العالمي والتحول الرقمي لتعزيز التنافسية.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-4 text-right">
+                        <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 1;">
+                            <h3>3. الخدمات اللوجستية المتقدمة</h3>
+                            <p>تقديم خدمات متكاملة لجذب السفن وتحسين تجربة العبور.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>مراكز توزيع عالمية.</li>
+                                <li>مستودعات متخصصة وخدمات شحن وصيانة.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 2;">
+                           <h3>4. التكامل مع التجارة العالمية</h3>
+                            <p>تعزيز دور القناة كممر تجاري عالمي من خلال الربط الدولي.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>تقصير طرق التجارة بين آسيا وأوروبا وأفريقيا.</li>
+                                <li>اتفاقيات مع شركات ملاحة كبرى.</li>
+                                <li>حوافز جمركية واستثمارية.</li>
+                            </ul>
+                        </div>
+                         <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 3;">
+                           <h3>5. التطوير التكنولوجي</h3>
+                            <p>استخدام التكنولوجيا لتحسين الكفاءة والخدمات.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>أنظمة رقمية لإدارة السفن وتتبع البضائع.</li>
+                                <li>خدمات بيئية ومحطات وقود نظيف.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">المبحث الثاني</h2>
+                    <h1 class="accent-highlight animated-element delay-1">الآثار الاقتصادية لقناة السويس وفقًا لخطة مصر 2030</h1>
+                    <p class="subtitle animated-element delay-2">تفصيل التأثيرات المتوقعة لمشاريع التطوير على الاقتصاد المصري والبنية التحتية.</p>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">الآثار الاقتصادية (1)</h2>
+                     <p class="subtitle animated-element delay-1">تحليل لتأثير المشروع على النمو الاقتصادي، البنية التحتية، والاستثمار.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-4 text-right">
+                        <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 1;">
+                            <h3>1. زيادة الإيرادات والنمو الاقتصادي</h3>
+                            <p>المشروع ساهم في رفع دخل القناة بشكل كبير مما دعم الاقتصاد المصري.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>الإيرادات ارتفعت من 5.1 إلى 13.2 مليار دولار (2013–2023).</li>
+                                <li>مساهمة القناة في الناتج المحلي تزداد بمرور الوقت.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 2;">
+                           <h3>2. تحسين البنية التحتية والخدمات اللوجستية</h3>
+                            <p>تطوير الموانئ والخدمات ساعد في جذب السفن وزيادة الكفاءة.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>إنشاء أرصفة عميقة ومناطق لوجستية متطورة في شرق بورسعيد والعين السخنة.</li>
+                            </ul>
+                        </div>
+                         <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 3;">
+                           <h3>3. جذب الاستثمارات الأجنبية والمحلية</h3>
+                            <p>المشروع فتح المجال أمام مشاركة القطاع الخاص وزيادة التمويل.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>استهداف إيرادات 100 مليار دولار حتى 2022، و200 مليار حتى 2030.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element"></h2>
+                     <p class="subtitle animated-element delay-1">تحليل لتأثير المشروع على التوظيف، التجارة الدولية، والدخل القومي.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-4 text-right">
+                        <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 1;">
+                            <h3>4. خلق فرص عمل</h3>
+                            <p>تنمية القناة دعمت التوظيف في مجالات متعددة.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>توفير أكثر من 216 ألف وظيفة مباشرة، مع تدريب في صناعات بحرية متخصصة.</li>
+                            </ul>
+                        </div>
+                        <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 2;">
+                           <h3>5. تعزيز التجارة الدولية</h3>
+                            <p>القناة أصبحت مركزًا عالميًا يربط بين قارات العالم.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>تمر بها 8% من تجارة العالم و42% من الحاويات.</li>
+                            </ul>
+                        </div>
+                         <div class="info-card bg-black/20 p-4 rounded-xl animated-element stagger" style="--stagger-index: 3;">
+                           <h3>6. زيادة الدخل القومي</h3>
+                            <p>زيادة حركة السفن ساهمت في رفع الاحتياطي من النقد الأجنبي.</p>
+                            <ul class="mt-3 space-y-2">
+                                <li>استفادة الشركات المحلية من المشاركة في مشروعات التنمية.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-bg-image"></div><button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper"><h1 class="animated-element">الختام</h1><h2 class="mt-4 animated-element delay-1">الخلاصة والتوصيات</h2></div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">الخلاصة</h2>
+                     <p class="subtitle animated-element delay-1">تلخيص لأهمية القناة ودور الاستثمار في تحقيق النمو الاقتصادي المستدام.</p>
+                    <p class="animated-element delay-2" style="max-width: 900px; font-size: 1.2rem;">تعتبر قناة السويس مصدرًا رئيسيًا للإيرادات ومحورًا للتجارة الدولية. إن الاستثمار الأجنبي المباشر مهم لسد الفجوة بين الادخار والاستثمار ونقل التكنولوجيا.   نجاح المشروع يعتمد على توفير بيئة استثمارية   وتنمية الموارد البشرية، وتطوير البنية التحتية  ، واستقرار المعاملات لتعزيز القدرة التنافسية عالميًا .</p>
+                </div>
+            </section>
+            
+            <section class="slide">
+                <div class="slide-content-wrapper">
+                    <h2 class="animated-element">التوصيات</h2>
+                     <p class="subtitle animated-element delay-1">مقترحات عملية موجهة لصانعي القرار لتعظيم الاستفادة من المشروع.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-6xl mt-4 text-base animated-element delay-2">
+                        <p class="bg-black/20 p-3 rounded-lg">تنظيم مرور السفن بشكل أفضل.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">تعزيز الشراكات الاستراتيجية الدولية.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">التطوير البيئي والاستدامة.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">تنمية المنطقة الاقتصادية للقناة.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">تحسين العوائد المالية والتسويق.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">التوسع في الدراسات المستقبلية.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">استخدم تكنولوجيا حديثة.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">إعداد خطط طوارئ لضمان استمرارية الأعمال.</p>
+                        <p class="bg-black/20 p-3 rounded-lg">التركيز على تدريب وتطوير الكوادر البشرية.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <div class="slide-bg-image"></div>
+                <button class="add-bg-btn">➕</button>
+                <div class="slide-content-wrapper">
+                    <h1 class="text-7xl md:text-8xl animated-element">شكرًا</h1>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Controls (Remain fixed to viewport) -->
+    <div id="dot-navigation-wrapper"><div id="dot-navigation"></div></div>
+    <div id="presentation-controls">
+        <div class="control-group">
+            <button id="export-pdf" class="export-btn" title="تصدير كـ PDF"><i data-feather="file-text"></i></button>
+            <button id="export-pptx" class="export-btn" title="تصدير كـ PPTX"><i data-feather="airplay"></i></button>
+        </div>
+        <div class="control-group nav-buttons">
+            <button id="prev-btn" class="nav-button"><i data-feather="arrow-right"></i></button>
+            <span id="slide-counter"></span>
+            <button id="next-btn" class="nav-button"><i data-feather="arrow-left"></i></button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideCounter = document.getElementById('slide-counter');
+            const progressBar = document.getElementById('progress-bar');
+            const dotContainer = document.getElementById('dot-navigation');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let isAnimating = false;
+
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dot.dataset.slideIndex = index;
+                dot.addEventListener('click', () => goToSlide(index));
+                dotContainer.appendChild(dot);
+            });
+
+            const dots = document.querySelectorAll('.dot');
+            
+            function updateUI(slideIndex) {
+                slideCounter.textContent = `${slideIndex + 1} / ${totalSlides}`;
+                progressBar.style.width = `${((slideIndex + 1) / totalSlides) * 100}%`;
+                prevBtn.disabled = slideIndex === 0;
+                nextBtn.disabled = slideIndex === totalSlides - 1;
+                dots.forEach(dot => dot.classList.remove('active'));
+                if(dots[slideIndex]) dots[slideIndex].classList.add('active');
+            }
+
+            function goToSlide(slideIndex) {
+                if (isAnimating || slideIndex < 0 || slideIndex >= totalSlides) return;
+                isAnimating = true;
+                const oldSlide = slides[currentSlide];
+                const newSlide = slides[slideIndex];
+                if(oldSlide) oldSlide.classList.remove('active');
+                if(newSlide) newSlide.classList.add('active');
+                currentSlide = slideIndex;
+                updateUI(slideIndex);
+                setTimeout(() => { isAnimating = false; }, 800);
+            }
+            
+            nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+            prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+            
+            document.addEventListener('keydown', (event) => {
+                if (document.activeElement.tagName.toLowerCase().match(/input|textarea/)) return;
+                
+                const isRtl = document.documentElement.dir === 'rtl';
+                if (event.key === (isRtl ? 'ArrowLeft' : 'ArrowRight') || event.key === 'PageDown' || event.key === 'ArrowDown') {
+                    nextBtn.click(); 
+                } else if (event.key === (isRtl ? 'ArrowRight' : 'ArrowLeft') || event.key === 'PageUp' || event.key === 'ArrowUp') {
+                    prevBtn.click();
+                }
+            });
+            
+            goToSlide(0); // Initialize first slide
+            
+            // --- Background Upload Logic ---
+            function setupBgUploader(button) {
+                const slide = button.closest('.slide');
+                let bgContainer = slide.querySelector('.slide-bg-image');
+                if (!bgContainer) {
+                    bgContainer = document.createElement('div');
+                    bgContainer.className = 'slide-bg-image';
+                    slide.prepend(bgContainer);
+                }
+
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = 'image/*,video/*';
+                    fileInput.onchange = (event) => {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                 bgContainer.querySelectorAll('video').forEach(el => el.remove());
+                                
+                                if (file.type.startsWith('video/')) {
+                                    const video = document.createElement('video');
+                                    video.src = e.target.result;
+                                    video.autoplay = true; video.loop = true; video.muted = true; video.playsInline = true;
+                                    bgContainer.style.backgroundImage = '';
+                                    bgContainer.appendChild(video);
+                                } else {
+                                     bgContainer.style.backgroundImage = `url('${e.target.result}')`;
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+                    fileInput.click();
+                });
+            }
+            document.querySelectorAll('.add-bg-btn').forEach(setupBgUploader);
+
+            // --- Export Logic ---
+            const { jsPDF } = window.jspdf;
+            const exportPdfBtn = document.getElementById('export-pdf');
+            const exportPptxBtn = document.getElementById('export-pptx');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const presentationContainer = document.querySelector('.presentation-container');
+
+            const toggleExportView = (isExporting) => {
+                const display = isExporting ? 'none' : '';
+                document.getElementById('presentation-controls').style.display = display;
+                document.getElementById('dot-navigation-wrapper').style.display = display;
+                document.querySelectorAll('.add-bg-btn').forEach(btn => btn.style.display = display);
+            };
+
+            async function exportAction(exporter) {
+                 loadingIndicator.style.display = 'flex';
+                 const originalSlide = currentSlide;
+                 toggleExportView(true);
+                 
+                 await exporter();
+
+                 toggleExportView(false);
+                 goToSlide(originalSlide);
+                 await new Promise(r => setTimeout(r, 500)); // wait for UI to restore
+                 loadingIndicator.style.display = 'none';
+            }
+            
+            exportPdfBtn.addEventListener('click', () => exportAction(async () => {
+                const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+                const a4_width = 841.89;
+                const a4_height = 595.28;
+
+                for(let i = 0; i < slides.length; i++) {
+                    goToSlide(i);
+                    await new Promise(r => setTimeout(r, 900)); // wait for animations
+                    const canvas = await html2canvas(presentationContainer, { scale: 1.5, useCORS: true, allowTaint: true, backgroundColor: '#0D1B2A'});
+                    const imgData = canvas.toDataURL('image/png');
+
+                    if (i > 0) pdf.addPage('a4', 'landscape');
+                    pdf.addImage(imgData, 'PNG', 0, 0, a4_width, a4_height);
+                }
+                pdf.save('SuezCanal_Presentation.pdf');
+            }));
+            
+            exportPptxBtn.addEventListener('click', () => exportAction(async () => {
+                let pptx = new PptxGenJS();
+                pptx.layout = 'LAYOUT_16X9';
+                pptx.rtlMode = true;
+                
+                for(let i = 0; i < slides.length; i++) {
+                    goToSlide(i);
+                    await new Promise(r => setTimeout(r, 900)); // wait for animations
+                    let pptxSlide = pptx.addSlide();
+                    pptxSlide.background = { color: '0D1B2A' };
+                    const canvas = await html2canvas(presentationContainer, { scale: 1.5, useCORS: true, allowTaint: true, backgroundColor: '#0D1B2A' });
+                    const imgData = canvas.toDataURL("image/png");
+                    pptxSlide.addImage({ data: imgData, x: 0, y: 0, w:'100%', h:'100%' });
+                }
+                pptx.writeFile({ fileName: 'SuezCanal_Presentation.pptx' });
+            }));
+        });
+    </script>
+</body>
+</html>

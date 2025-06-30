@@ -128,15 +128,14 @@
         .accent-highlight { color: var(--color-highlight); }
 
         /* General content styling */
-        .slide h1 { font-size: 2.8rem; line-height: 1.2; text-shadow: 0 2px 15px rgba(0,0,0,0.8); }
-        .slide h2 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--color-accent); font-weight: 700; text-shadow: 0 1px 10px rgba(0,0,0,0.7); }
-        .slide .subtitle { font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 1.5rem; max-width: 800px; }
-        .slide p, .slide li { font-size: 1.1rem; line-height: 1.8; max-width: 850px; color: var(--color-text); text-shadow: 0 1px 5px rgba(0,0,0,0.7); text-align: right; }
+        .slide h1 { font-size: 2.8rem; line-height: 1.2; text-shadow: 0 2px 20px rgba(0,0,0,0.9); }
+        .slide h2 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--color-accent); font-weight: 700; text-shadow: 0 1px 15px rgba(0,0,0,0.8); }
+        .slide .subtitle { font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 1.5rem; max-width: 800px; text-shadow: 0 1px 5px rgba(0,0,0,0.8); }
+        .slide p, .slide li { font-size: 1.1rem; line-height: 1.8; max-width: 850px; color: var(--color-text); text-shadow: 0 1px 8px rgba(0,0,0,0.9); text-align: right; }
         .slide ul { list-style-type: '✔  '; padding-right: 1.5rem; text-align: right; }
         .info-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--color-highlight); margin-bottom: 0.5rem; }
         .info-card p { font-size: 1rem; line-height: 1.6; color: var(--color-text-muted); }
         .info-card ul { font-size: 1rem; line-height: 1.6; }
-
 
         /* Table styles */
         .table-container { width: 100%; overflow-x: auto; max-width: 90%; margin-top: 1.5rem; background: rgba(0,0,0,0.5); border-radius: 1rem; padding: 1.5rem; border: 1px solid rgba(65, 90, 119, 0.5); backdrop-filter: blur(8px); }
@@ -183,7 +182,6 @@
         .pie-chart-legend li { margin-bottom: 10px; display: flex; align-items: center; justify-content: flex-end; font-size: 1rem; }
         .legend-color { width: 20px; height: 20px; margin-left: 10px; display: inline-block; border-radius: 4px;}
 
-
         /* Navigation & Controls */
         #presentation-controls { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; gap: 1rem; }
         .control-group { display: flex; align-items: center; gap: 1rem; background: rgba(13, 27, 42, 0.85); padding: 0.5rem 1rem; border-radius: 9999px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -210,14 +208,14 @@
         <div class="presentation-container">
             <!-- Slides with Backgrounds -->
             <section class="slide active">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1563911556813-26461a49859f?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1563911556813-26461a49859f?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h1 class="text-7xl md:text-8xl font-black tracking-widest text-white/90 animated-element" style="text-shadow: 0 0 40px rgba(255, 195, 0, 0.6);">SUEZ CANAL</h1>
                 </div>
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1621254361536-9d3e3878b615?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1621254361536-9d3e3878b615?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="mb-4 animated-element">مشروع تخرج بعنوان</h2>
                     <h1 class="text-4xl md:text-5xl leading-tight animated-element delay-1">التحليل الاقتصادي لتوقعات إيرادات قناة السويس<br>طبقًا لرؤية مصر 2030</h1>
@@ -225,7 +223,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">إشراف</h2>
                     <h1 class="text-5xl md:text-6xl mt-4 accent-highlight animated-element delay-1">دكتور/ فوزي محمد هيكل</h1>
@@ -233,7 +231,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                  <div class="slide-content-wrapper">
                     <h2 class="mb-8 animated-element">إعداد</h2>
                     <div class="student-grid animated-element delay-1">
@@ -250,7 +248,7 @@
             </section>
 
             <section class="slide">
-                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1587560699334-cc4262401233?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1587560699334-cc4262401233?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">طبيعة المشروع</h2>
                     <p class="subtitle animated-element delay-1">نظرة عامة على قناة السويس كشريان حيوي للتجارة العالمية وأساس المشروع.</p>
@@ -259,7 +257,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1611095966432-c9b2732087ec?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1611095966432-c9b2732087ec?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">أهمية المشروع</h2>
                     <p class="subtitle animated-element delay-1">يسلط هذا الجزء الضوء على الأبعاد العلمية والعملية للمشروع وأثره التنموي.</p>
@@ -274,7 +272,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">أهداف المشروع</h2>
                     <p class="subtitle animated-element delay-1">تحديد الغايات الرئيسية للدراسة من التحليل الاقتصادي إلى تقديم التوصيات.</p>
@@ -290,7 +288,7 @@
             </section>
             
             <section class="slide">
-                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">خطة المشروع</h2>
                     <p class="subtitle animated-element delay-1">الخطوط العريضة والهيكلية للدراسة التحليلية للمشروع.</p>
@@ -303,12 +301,12 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper"><h2 class="animated-element">الفصل الأول</h2><h1 class="accent-highlight animated-element delay-1">أدوات التحليل الاقتصادي</h1></div>
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">المبحث الأول</h2>
                     <h1 class="accent-highlight animated-element delay-1">استراتيجيات التحليل الاقتصادي</h1>
@@ -317,7 +315,7 @@
             </section>
 
             <section class="slide">
-                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1614088427226-170dcf458514?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1614088427226-170dcf458514?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">تحليل إيرادات وحركة السفن</h2>
                      <p class="subtitle animated-element delay-1">قراءة في الأرقام الرئيسية التي تعكس نمو القناة وأهميتها المالية.</p>
@@ -326,7 +324,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1577484432147-3478b0568114?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1577484432147-3478b0568114?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">توزيع أنواع السفن المارة بالقناة (2022)</h2>
                     <p class="subtitle animated-element delay-1">تحليل لأنواع السفن التي تعبر القناة لفهم طبيعة الحركة التجارية.</p>
@@ -344,7 +342,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1520443439339-1634b6a89cfb?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1520443439339-1634b6a89cfb?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                      <h2 class="animated-element">التأثيرات الاجتماعية والثقافية</h2>
                       <p class="subtitle animated-element delay-1">قياس الأثر المجتمعي للقناة على المناطق المحيطة بها.</p>
@@ -366,7 +364,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">المبحث الثاني</h2>
                     <h1 class="accent-highlight animated-element delay-1">منافع التحليل الاقتصادي نحو التميز</h1>
@@ -375,7 +373,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1571172604245-c64539151c8a?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1571172604245-c64539151c8a?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">أبرز منافع التحليل الاقتصادي</h2>
                     <p class="subtitle animated-element delay-1">ملخص للفوائد الرئيسية التي يبرزها التحليل الاقتصادي لأداء القناة وتطورها.</p>
@@ -409,12 +407,12 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper"><h2 class="animated-element">الفصل الثاني</h2><h1 class="accent-highlight animated-element delay-1">التحديات الاقتصادية لإيرادات قناة السويس</h1></div>
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1563911556813-26461a49859f?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1563911556813-26461a49859f?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">المبحث الأول</h2>
                     <h1 class="accent-highlight animated-element delay-1">مصادر إيرادات قناة السويس</h1>
@@ -423,7 +421,7 @@
             </section>
 
             <section class="slide">
-                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                 <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">تحليل الأداء الكمي (2014-2022)</h2>
                     <p class="subtitle animated-element delay-1">نظرة على أبرز المؤشرات الرقمية التي تظهر تطور أداء القناة.</p>
@@ -445,7 +443,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">الأثر الاقتصادي والمقارنة الدولية</h2>
                      <p class="subtitle animated-element delay-1">تقييم الدور التنموي للقناة وموقعها في المشهد العالمي.</p>
@@ -467,7 +465,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1583324113626-4e04a4c4135d?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1583324113626-4e04a4c4135d?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">المبحث الثاني</h2>
                     <h1 class="accent-highlight animated-element delay-1">التهديدات المحتملة لإيرادات قناة السويس</h1>
@@ -476,7 +474,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1543286386-713bdd548da4?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1543286386-713bdd548da4?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">التهديدات والعوامل المؤثرة على التنافسية</h2>
                     <p class="subtitle animated-element delay-1">تحليل للمخاطر الرئيسية التي تواجه القناة والعوامل التي قد تدفع السفن لاختيار مسارات بديلة.</p>
@@ -504,7 +502,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">التغيرات البيئية والتكنولوجية وتأثيرها</h2>
                     <p class="subtitle animated-element delay-1">استعراض كيف يمكن للبيئة والابتكارات التكنولوجية أن تعيد تشكيل مستقبل النقل البحري.</p>
@@ -528,12 +526,12 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper"><h2 class="animated-element">الفصل الثالث</h2><h1 class="accent-highlight animated-element delay-1">آليات تعظيم إيرادات قناة السويس وفقًا لخطة مصر 2030</h1></div>
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">المبحث الأول</h2>
                     <h1 class="accent-highlight animated-element delay-1">الفرص المتاحة لتعظيم إيرادات قناة السويس</h1>
@@ -542,7 +540,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1570126618953-add78685834d?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1570126618953-add78685834d?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                      <h2 class="animated-element">آليات تعظيم الإيرادات: الخدمات والمناطق الاقتصادية</h2>
                      <p class="subtitle animated-element delay-1">استراتيجيات تطوير الخدمات الملاحية والمناطق المحيطة لزيادة القيمة المضافة.</p>
@@ -571,7 +569,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1579226905180-636b76d96a65?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1579226905180-636b76d96a65?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">آليات تعظيم الإيرادات: اللوجستيات والتكنولوجيا</h2>
                     <p class="subtitle animated-element delay-1">استراتيجيات التكامل العالمي والتحول الرقمي لتعزيز التنافسية.</p>
@@ -606,7 +604,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">المبحث الثاني</h2>
                     <h1 class="accent-highlight animated-element delay-1">الآثار الاقتصادية لقناة السويس وفقًا لخطة مصر 2030</h1>
@@ -615,7 +613,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">الآثار الاقتصادية (1)</h2>
                      <p class="subtitle animated-element delay-1">تحليل لتأثير المشروع على النمو الاقتصادي، البنية التحتية، والاستثمار.</p>
@@ -647,7 +645,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">الآثار الاقتصادية (2)</h2>
                      <p class="subtitle animated-element delay-1">تحليل لتأثير المشروع على التوظيف، التجارة الدولية، والدخل القومي.</p>
@@ -678,12 +676,12 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1549492423-400212a6e5a5?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper"><h1 class="animated-element">الختام</h1><h2 class="mt-4 animated-element delay-1">الخلاصة والتوصيات</h2></div>
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1542626991-cbc4e6268dcc?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1542626991-cbc4e6268dcc?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">الخلاصة</h2>
                      <p class="subtitle animated-element delay-1">تلخيص لأهمية القناة ودور الاستثمار في تحقيق النمو الاقتصادي المستدام.</p>
@@ -692,7 +690,7 @@
             </section>
             
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1600&q=80');"></div><button class="add-bg-btn">•</button>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1920&q=80');"></div><button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h2 class="animated-element">التوصيات</h2>
                      <p class="subtitle animated-element delay-1">مقترحات عملية موجهة لصانعي القرار لتعظيم الاستفادة من المشروع.</p>
@@ -711,7 +709,7 @@
             </section>
 
             <section class="slide">
-                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1621254359454-38c64f7671b5?w=1600&q=80');"></div>
+                <div class="slide-bg-image" style="background-image: url('https://images.unsplash.com/photo-1621254359454-38c64f7671b5?w=1920&q=80');"></div>
                 <button class="add-bg-btn">•</button>
                 <div class="slide-content-wrapper">
                     <h1 class="text-7xl md:text-8xl animated-element">شكرًا</h1>
